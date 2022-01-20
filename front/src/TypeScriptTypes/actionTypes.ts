@@ -1,0 +1,3 @@
+export const UPDATE_CURRENT_WORDS = "UPDATE_CURRENT_WORDS";
+export const RESET_CURRENT_WORDS = "RESET_CURRENT_WORDS";
+export const TEMP = "TEMP";

@@ -1,7 +1,8 @@
+require("dotenv").config();
 const serverless = require("serverless-http");
 const AWS = require("aws-sdk");
 const express = require("express");
-const { getRandomInt } = require("./helper/functions");
+const { getRandomInt, getRandomLetter } = require("./helper/functions");
 
 const app = express();
 
@@ -13,8 +14,8 @@ const TABLE_NAME = "dictionary";
 
 const config = {
   region: "eu-west-3",
-  accessKeyId: "AKIA3XPJ7UXXXRBXI535",
-  secretAccessKey: "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",
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  secretAccessKey: process.env.SECRET_ACCESS_KEY,
 };
 let docClient = new AWS.DynamoDB.DocumentClient(config);
 AWS.config.update(config);
@@ -25,24 +26,52 @@ app.get("/", (req, res, next) => {
   });
 });
 
-app.get("/part-of-speech/:part", async (req, res, next) => {
+app.get("/part-of-speech/:part", async function getRandomWord(req, res, next) {
   try {
-    //* Should return random word with the specified part of speech
+    //* Should set "randomWord" with random word, that has a specified part of speech
     //* if there is :part?letter then the word should start with this letter
-    const params = {
-      TableName: TABLE_NAME,
-      IndexName: "pos-word-index",
-      KeyConditionExpression: "pos = :p AND word between :start and :end",
-      ExpressionAttributeValues: {
-        ":p": req.params.part,
-        ":start": "A",
-        ":end": "B",
-      },
+    let randomWord = {};
+    const getRandomWord = async (count) => {
+      const hasLetterQueryParam = Boolean(req.query.letter);
+
+      const letter = hasLetterQueryParam
+        ? req.query.letter.split("")[0].toUpperCase()
+        : getRandomLetter();
+
+      const params = {
+        TableName: TABLE_NAME,
+        IndexName: "pos-word-index",
+        KeyConditionExpression: "pos = :p and begins_with(word, :t )",
+        ExpressionAttributeValues: {
+          ":p": partOfSpeechMap[req.params.part],
+          ":t": letter,
+        },
+        Limit: 100,
+      };
+      const response = await docClient.query(params).promise();
+
+      //? If tried 5 times and still got nothing then return error
+      if (count === 5) {
+        console.log("GOT AN ERROR");
+        return res.status(405).json({
+          error: `Timeout, tried 5 times`,
+        });
+      }
+
+      //? If haven't returned a thing
+      if (response.Items.length === 0) {
+        //? So try again
+        await getRandomWord(count++);
+      } else {
+        //? if got something then return
+        const index = getRandomInt(response.Items.length);
+        //* Set "randomWord"
+        randomWord = response.Items[index];
+      }
     };
-    const response = await docClient.query(params).promise();
-    // const randomWord = response.Items[getRandomInt(100)];
+    await getRandomWord(0);
     return res.status(200).json({
-      LOL: response.Items,
+      word: randomWord,
     });
   } catch (error) {
     return res.status(405).json({
@@ -84,7 +113,7 @@ app.get("/:word", async (req, res, next) => {
     };
     const response = await docClient.query(params).promise();
     return res.status(200).json({
-      word: response.Items,
+      words: response.Items,
     });
   } catch (error) {
     return res.status(405).json({

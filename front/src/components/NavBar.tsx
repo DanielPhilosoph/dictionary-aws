@@ -5,6 +5,15 @@ export default function NavBar() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
+        <Navbar.Brand href="#home">
+          <img
+            alt=""
+            src="/images/dictionary.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top logoImage"
+          />{" "}
+        </Navbar.Brand>
         <Navbar.Brand href="#home">English Dictionary</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">

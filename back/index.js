@@ -18,10 +18,10 @@ const data = fs.readFileSync("./assets/dictionary.json");
 results = [...JSON.parse(data.toString())];
 
 const insert = async () => {
-  for (let wordObj of results) {
+  for (let i = 107794; i < results.length; i++) {
     const params = {
       TableName: "dictionary",
-      Item: wordObj,
+      Item: results[i],
     };
 
     await docClient.put(params).promise();
