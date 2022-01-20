@@ -13,8 +13,8 @@ const TABLE_NAME = "dictionary";
 
 const config = {
   region: "eu-west-3",
-  accessKeyId: "AKIA3XPJ7UXXXRBXI535",
-  secretAccessKey: "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",
+  accessKeyId: "",
+  secretAccessKey: "",
 };
 let docClient = new AWS.DynamoDB.DocumentClient(config);
 AWS.config.update(config);
