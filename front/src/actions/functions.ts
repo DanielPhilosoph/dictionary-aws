@@ -4,7 +4,7 @@ import {
 } from "../TypeScriptTypes/actionTypes";
 import axios from "axios";
 import { Dispatch } from "redux";
-import { getRandomPartOfSpeech } from "../helper/functions";
+import { getRandomPartOfSpeech, shortPosToFullPos } from "../helper/functions";
 
 export async function searchWord(
   dispatch: Dispatch<any>,
@@ -29,9 +29,9 @@ export async function searchWord(
   }
 }
 
-export async function getRandomWord(dispatch: Dispatch<any>) {
+export async function getRandomWord(dispatch: Dispatch<any>, pos: string) {
   try {
-    const randomPartOfSpeech = getRandomPartOfSpeech();
+    const randomPartOfSpeech = shortPosToFullPos(pos);
     const response = await axios.get(
       `http://localhost:3001/part-of-speech/${randomPartOfSpeech}`
     );
@@ -40,13 +40,10 @@ export async function getRandomWord(dispatch: Dispatch<any>) {
       type: UPDATE_CURRENT_WORDS,
       payload: [response.data.word],
     };
-    console.log("Response.data");
+
     if (!response.data.hasOwnProperty("word")) {
-      console.log(response.data);
       return;
     }
-    console.log(response.data);
-
     dispatch(action);
   } catch (error) {
     console.log(error);

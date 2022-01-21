@@ -1,21 +1,16 @@
-import React, { useEffect } from "react";
-import { Dispatch } from "redux";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import SearchDiv from "./SearchDiv";
 import WordDiv from "./WordDiv";
-import { getRandomWord } from "../actions/functions";
 
 export default function DictionaryMain() {
-  const dispatch: Dispatch<any> = useDispatch();
   const state: StateType = useSelector((state: StateType) => state);
 
-  useEffect(() => {
-    const randomWord = async () => {
-      await getRandomWord(dispatch);
-    };
-    randomWord();
-  }, []);
+  let display: string = "none";
+  if (state.currentWords.length === 0) {
+    display = "block";
+  }
 
   return (
     <div>
@@ -41,7 +36,11 @@ export default function DictionaryMain() {
           </div>
         </div>
         <div>
-          {state.currentWords.length === 0 ? "No words to display" : ""}
+          {
+            <p className="noWordsMessagesP" style={{ display: `${display}` }}>
+              No words to display at the moment
+            </p>
+          }
           {state.currentWords.map((word: WordType) => {
             return (
               <WordDiv
@@ -52,8 +51,6 @@ export default function DictionaryMain() {
               />
             );
           })}
-          {/* //* All words goes here */}
-          {/* <WordDiv /> */}
         </div>
       </div>
     </div>

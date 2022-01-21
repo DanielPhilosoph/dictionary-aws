@@ -9,6 +9,10 @@
   --welcome-div-color: whitesmoke;
   --word-div-background: rgb(166, 201, 230);
   --pos-h5-color: #195599;
+  --no-words-color: #195599;
+  --navbar-links-color-main: rgb(233, 233, 233);
+  --navbar-links-color: rgba(255, 255, 255, 0.55);
+  --navbar-links-color-hover: rgb(190, 190, 190);
 }
 
 body {
@@ -84,16 +88,54 @@ body {
   word-break: break-all;
   margin: auto;
   margin-top: 10px;
+  margin-bottom: 10px;
   background-color: var(--word-div-background);
   border-radius: 10px;
 }
 
+.wordDiv:hover {
+  cursor: pointer;
+}
+
 .posH5 {
   color: var(--pos-h5-color);
+  width: fit-content;
+}
+
+.posH5:hover {
+  text-decoration: underline;
 }
 
 .wordDescriptionDiv {
   margin-left: 20px;
+}
+
+.noWordsMessagesP {
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--no-words-color);
+}
+
+.navbarLinkMain {
+  text-decoration: wavy;
+  color: var(--navbar-links-color-main);
+}
+
+.navbarLinkMain:hover {
+  color: var(--navbar-links-color-main);
+}
+
+.navbarLink {
+  text-decoration: wavy;
+  color: var(--navbar-links-color);
+  padding-right: 0.5rem;
+}
+
+.navbarLink:hover {
+  color: var(--navbar-links-color-hover);
 }
 
 @media screen and (max-width: 500px) {
