@@ -128,11 +128,11 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen("3001", () => {
-  console.log("Listening to port 3001: http://localhost:3001");
-});
+// app.listen("3001", () => {
+//   console.log("Listening to port 3001: http://localhost:3001");
+// });
 
-//module.exports.handler = serverless(app);
+module.exports.handler = serverless(app);
 
 const partOfSpeechMap = {
   adverb: "adv.",
