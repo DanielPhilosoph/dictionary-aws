@@ -1,12 +1,11 @@
 import React from "react";
-import "./App.css";
 import DictionaryMain from "./components/DictionaryMain";
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
-import store from "./store/store";
 import WordPage from "./components/WordPage";
+import RecentWords from "./components/RecentWords";
 
 function App() {
   const state: StateType = useSelector((state: StateType) => state);
@@ -26,6 +25,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<DictionaryMain />} />
+          <Route path="/recent-words" element={<RecentWords />} />
           {routes}
         </Routes>
       </BrowserRouter>

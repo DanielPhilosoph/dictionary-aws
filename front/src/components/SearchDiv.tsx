@@ -1,10 +1,9 @@
 import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { resetCurrentWords, searchWord } from "../actions/functions";
 
 export default function SearchDiv() {
-  const state: StateType = useSelector((state: StateType) => state);
   const dispatch: Dispatch<any> = useDispatch();
 
   const searchInput = useRef<HTMLInputElement>(null);
@@ -22,7 +21,6 @@ export default function SearchDiv() {
         );
       }
     }
-    console.log(state);
   };
 
   return (

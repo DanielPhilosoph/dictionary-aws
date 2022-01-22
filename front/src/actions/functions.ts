@@ -4,7 +4,9 @@ import {
 } from "../TypeScriptTypes/actionTypes";
 import axios from "axios";
 import { Dispatch } from "redux";
-import { getRandomPartOfSpeech, shortPosToFullPos } from "../helper/functions";
+import Swal from "sweetalert2";
+
+import { shortPosToFullPos } from "../helper/functions";
 
 export async function searchWord(
   dispatch: Dispatch<any>,
@@ -25,7 +27,13 @@ export async function searchWord(
     };
     dispatch(action);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: `Error: ${error}`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 }
 
@@ -46,7 +54,13 @@ export async function getRandomWord(dispatch: Dispatch<any>, pos: string) {
     }
     dispatch(action);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: `Error: ${error}`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 }
 

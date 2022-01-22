@@ -2,7 +2,7 @@ import React from "react";
 import WordDescription from "./WordDescription";
 import { useNavigate } from "react-router-dom";
 import { Dispatch } from "redux";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getRandomWord } from "../actions/functions";
 import { capitalizeFirstLetter } from "../helper/functions";
@@ -10,7 +10,6 @@ import { capitalizeFirstLetter } from "../helper/functions";
 export default function WordDiv(props: WordType) {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
-  const state: StateType = useSelector((state: StateType) => state);
 
   const onWordClick = async (event: React.MouseEvent<HTMLElement>) => {
     //* 1- has target, 2- is an html element, 3- is pos element;

@@ -13,10 +13,17 @@
   --navbar-links-color-main: rgb(233, 233, 233);
   --navbar-links-color: rgba(255, 255, 255, 0.55);
   --navbar-links-color-hover: rgb(190, 190, 190);
+  --recent-words-header-color: #195599;
+
+  --search-input-bg: white;
+  --part-of-speech-input-bg: white;
+  --search-input-color: black;
+  --part-of-speech-input-color: black;
 }
 
 body {
   width: 100%;
+  background-color: var(--body-background);
 }
 
 .searchDiv {
@@ -38,6 +45,8 @@ body {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid rgb(88, 88, 88);
+  background-color: var(--search-input-bg);
+  color: var(--search-input-color);
 }
 
 .searchInput:focus {
@@ -47,6 +56,8 @@ body {
 .partOfSpeechSelect {
   margin-left: 10px;
   border-radius: 5px;
+  background-color: var(--part-of-speech-input-bg);
+  color: var(--part-of-speech-input-color);
 }
 
 .searchButton {
@@ -136,6 +147,16 @@ body {
 
 .navbarLink:hover {
   color: var(--navbar-links-color-hover);
+}
+
+.recentWordsDiv {
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--recent-words-header-color);
 }
 
 @media screen and (max-width: 500px) {
