@@ -8,6 +8,8 @@ import Swal from "sweetalert2";
 
 import { shortPosToFullPos } from "../helper/functions";
 
+const rootUrl = "https://dd0fvn3a68.execute-api.eu-west-3.amazonaws.com";
+
 export async function searchWord(
   dispatch: Dispatch<any>,
   word: string,
@@ -17,9 +19,7 @@ export async function searchWord(
     if (partOfSpeech === "default") partOfSpeech = "";
     if (word === "") return { error: "Word cant be null" };
 
-    const response = await axios.get(
-      `http://localhost:3001/${word}/${partOfSpeech}`
-    );
+    const response = await axios.get(`${rootUrl}/${word}/${partOfSpeech}`);
 
     const action = {
       type: UPDATE_CURRENT_WORDS,
@@ -41,7 +41,7 @@ export async function getRandomWord(dispatch: Dispatch<any>, pos: string) {
   try {
     const randomPartOfSpeech = shortPosToFullPos(pos);
     const response = await axios.get(
-      `http://localhost:3001/part-of-speech/${randomPartOfSpeech}`
+      `${rootUrl}/part-of-speech/${randomPartOfSpeech}`
     );
 
     const action = {
