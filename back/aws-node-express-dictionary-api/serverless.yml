@@ -3,8 +3,24 @@ frameworkVersion: '2 || 3'
 
 provider:
   name: aws
+<<<<<<< Updated upstream
   runtime: nodejs12.x
   lambdaHashingVersion: '20201221'
+=======
+  runtime: nodejs14.x
+  stage: dev
+  region: eu-west-3
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - s3:DeleteBucket
+            - s3:PutBucketPolicy
+          Resource: arn:aws:dynamodb:eu-west-3:806333949423:table/dictionary
+>>>>>>> Stashed changes
 
 functions:
   api:
