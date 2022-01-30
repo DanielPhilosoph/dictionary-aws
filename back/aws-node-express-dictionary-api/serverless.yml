@@ -16,7 +16,9 @@ provider:
             - dynamodb:GetItem
             - s3:DeleteBucket
             - s3:PutBucketPolicy
-          Resource: arn:aws:dynamodb:eu-west-3:806333949423:table/dictionary
+          Resource:
+            - arn:aws:dynamodb:eu-west-3:806333949423:table/dictionary/*
+            - arn:aws:dynamodb:eu-west-3:806333949423:table/dictionary
 
 functions:
   api:

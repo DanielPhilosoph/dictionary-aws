@@ -2,6 +2,7 @@ require("dotenv").config();
 const serverless = require("serverless-http");
 const AWS = require("aws-sdk");
 const express = require("express");
+const cors = require("cors");
 const { getRandomInt, getRandomLetter } = require("./helper/functions");
 
 const app = express();
@@ -19,6 +20,8 @@ const config = {
 };
 let docClient = new AWS.DynamoDB.DocumentClient(config);
 AWS.config.update(config);
+
+app.use(cors());
 
 app.get("/", (req, res, next) => {
   return res.status(200).json({
@@ -128,11 +131,11 @@ app.use((req, res, next) => {
   });
 });
 
-// app.listen("3001", () => {
-//   console.log("Listening to port 3001: http://localhost:3001");
-// });
+app.listen("3001", () => {
+  console.log("Listening to port 3001: http://localhost:3001");
+});
 
-module.exports.handler = serverless(app);
+//module.exports.handler = serverless(app);
 
 const partOfSpeechMap = {
   adverb: "adv.",
