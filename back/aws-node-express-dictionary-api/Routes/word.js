@@ -7,6 +7,10 @@ const {
   partOfSpeechMap,
 } = require("../dynamoDB/dynamoDB");
 
+/**
+ * * Route - /
+ */
+
 router.get("/:word/:partOfSpeech", async (req, res, next) => {
   try {
     const params = {
