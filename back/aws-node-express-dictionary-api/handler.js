@@ -10,26 +10,31 @@ const app = express();
 //! ---- Const values -----
 
 const TABLE_NAME = "dictionary";
+const ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
+const SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
 
 //! -----------------------
 
+//* Config DB and updating AWS config
 const config = {
   region: "eu-west-3",
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
+  accessKeyId: ACCESS_KEY_ID,
+  secretAccessKey: SECRET_ACCESS_KEY,
 };
 let docClient = new AWS.DynamoDB.DocumentClient(config);
 AWS.config.update(config);
 
+//! CORS
 app.use(cors());
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from root!",
-  });
-});
+//* For testing
+// app.get("/", (req, res, next) => {
+//   return res.status(200).json({
+//     message: "Hello from root!",
+//   });
+// });
 
-app.get("/part-of-speech/:part", async function getRandomWord(req, res, next) {
+app.get("/part-of-speech/:part", async function getRandomWord(req, res) {
   try {
     //* Should set "randomWord" with random word, that has a specified part of speech
     //* if there is :part?letter then the word should start with this letter
@@ -37,6 +42,7 @@ app.get("/part-of-speech/:part", async function getRandomWord(req, res, next) {
     const getRandomWord = async (count) => {
       const hasLetterQueryParam = Boolean(req.query.letter);
 
+      //* If has letter then upper case this letter (ignores any irrelevant chars)
       const letter = hasLetterQueryParam
         ? req.query.letter.split("")[0].toUpperCase()
         : getRandomLetter();
@@ -94,7 +100,6 @@ app.get("/:word/:partOfSpeech", async (req, res, next) => {
       },
     };
     const response = await docClient.query(params).promise();
-    // const randomWord = response.Items[getRandomInt(100)];
     return res.status(200).json({
       words: response.Items,
     });
@@ -131,12 +136,16 @@ app.use((req, res, next) => {
   });
 });
 
+//* For local use
 app.listen("3001", () => {
   console.log("Listening to port 3001: http://localhost:3001");
 });
 
+//* For serverless use
 //module.exports.handler = serverless(app);
 
+//* JSON of part of speech strings
+//? Used to transform long version of part of speech to short
 const partOfSpeechMap = {
   adverb: "adv.",
   noun: "n.",
